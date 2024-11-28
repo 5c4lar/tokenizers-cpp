@@ -118,7 +118,7 @@ set(
   src/huggingface_tokenizer.cc
   src/rwkv_world_tokenizer.cc
 )
-add_library(tokenizer_cpp_objs OBJECT ${TOKENIZER_CPP_SRCS})
+add_library(tokenizer_cpp_objs SHARED ${TOKENIZER_CPP_SRCS})
 target_include_directories(tokenizer_cpp_objs PRIVATE sentencepiece/src)
 target_include_directories(tokenizer_cpp_objs PRIVATE msgpack/include)
 target_include_directories(tokenizer_cpp_objs PUBLIC ${TOKENIZERS_CPP_INCLUDE})
@@ -144,6 +144,6 @@ add_subdirectory(sentencepiece sentencepiece EXCLUDE_FROM_ALL)
 add_library(tokenizers_c INTERFACE ${TOKENIZERS_RUST_LIB})
 target_link_libraries(tokenizers_c INTERFACE ${TOKENIZERS_RUST_LIB} ${TOKENIZERS_C_LINK_LIBS})
 
-add_library(tokenizers_cpp STATIC $<TARGET_OBJECTS:tokenizer_cpp_objs>)
+add_library(tokenizers_cpp SHARED $<TARGET_OBJECTS:tokenizer_cpp_objs>)
 target_link_libraries(tokenizers_cpp PRIVATE tokenizers_c sentencepiece-static ${TOKENIZERS_CPP_LINK_LIBS})
 target_include_directories(tokenizers_cpp PUBLIC ${TOKENIZERS_CPP_INCLUDE})
